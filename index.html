@@ -735,13 +735,13 @@
         setInterval(createHearts, 1000);
     </script>
 
-<audio id="bg-music" autoplay playsinline>
+<!-- <audio id="bg-music" autoplay playsinline>
     Your browser does not support the audio element.
 </audio>
 
 <audio id="bg-music" autoplay playsinline>
     Your browser does not support the audio element.
-</audio>
+</audio> -->
 
 <script>
     const songs = [
@@ -751,21 +751,27 @@
     "public/Ishq-Hai-Ishq-Hai.mp3"
 ];
     
-    let currentSongIndex = 0;
-    const audioElement = document.getElementById("bg-music");
+    // let currentSongIndex = 0;
+    // const audioElement = document.getElementById("bg-music");
     
-    function playNextSong() {
-        currentSongIndex = (currentSongIndex + 1) % songs.length;
-        audioElement.src = songs[currentSongIndex];
-        audioElement.load();
-        audioElement.play();
-    }
+    // function playNextSong() {
+    //     currentSongIndex = (currentSongIndex + 1) % songs.length;
+    //     audioElement.src = songs[currentSongIndex];
+    //     audioElement.load();
+    //     audioElement.play();
+    // }
     
-    audioElement.src = songs[currentSongIndex];
-    audioElement.load();
-    audioElement.play();
+    // audioElement.src = songs[currentSongIndex];
+    // audioElement.load();
+    // audioElement.play();
     
-    audioElement.addEventListener("ended", playNextSong);
+    // audioElement.addEventListener("ended", playNextSong);
+
+
+    document.addEventListener("click", () => {
+    const audio = new Audio(songs[0]);
+    audio.play();
+});
 </script>
 
     <div class="container" id="welcome-screen" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; width: 100vw; text-align: center;">
