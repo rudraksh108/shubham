@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Surprise</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap');
+        
+        body {
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            background: url('https://www.transparenttextures.com/patterns/hearts.png'), 
+                        linear-gradient(to right, #ff758c, #ff7eb3);
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts animation */
+        @keyframes floatingHearts {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -10px;
+            width: 20px;
+            height: 20px;
+            background: red;
+            clip-path: polygon(50% 0%, 100% 30%, 85% 100%, 50% 75%, 15% 100%, 0% 30%);
+            opacity: 0.7;
+            animation: floatingHearts 5s linear infinite;
+        }
+
+        /* Add multiple hearts dynamically */
+        .hearts-container {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+        }
+
+        /* Glowing Buttons */
+        button {
+            background-color: #ff4081;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 15px #ff4081;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #ff4081; }
+            100% { box-shadow: 0 0 20px #ff005d; }
+        }
+
+        /* Falling Hearts for the Final Page */
+        .falling-heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff4d6d;
+            animation: fall 5s infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(500px); opacity: 0; }
+        }
+
+        h1, h2, p {
+            transition: all 1s ease;
+        }
+
+        .container {
+            display: none;
+            margin-top: 0px;
+        }
+
+        .active {
+            display: flex; /* Show active container */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        button {
+            background-color: #ff4081;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        button:hover {
+            background-color: #c51162;
+            transform: scale(1.1);
+        }
+
+        button:active {
+            transform: scale(0.9);
+        }
+
+        #welcome-screen {
+            background-image: url("./public/Brown-Collage-Quote-Instagram-Post.png");
+            background-size: contain;
+            background-position:center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 200vh;
+            width: 200vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #question-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #question-box {
+            background: white;
+            color: black;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+            font-size: 22px;
+            text-align: center;
+        }
+        #noButton {
+            position: relative;
+        }
+
+        /* Confession Page Styling */
+        #confession-screen {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            overflow-y: auto;
+            padding-bottom: 100px;
+        }
+        #continueButton {
+            display: block;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ff4081;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #continueButton:hover {
+            background-color: #c51162;
+            transform: scale(1.1);
+        }
+
+        /* Flex container for image and description */
+        .image-description-container {
+            display: flex;
+            justify-content: space-between;
+            width: 60%;
+            margin: 20px 0;
+            align-items: center;
+        }
+
+        /* Image Styling */
+        /* Image Size for Image 1 */
+        #img1 {
+            width: 95px;  /* Adjust width */
+            height: 130px; /* Adjust height */
+            object-fit: cover;
+        }
+
+        /* Image Size for Image 2 */
+        #img2 {
+            width: 140px;  /* Adjust width */
+            height: 130px; /* Adjust height */
+            object-fit: cover;
+        }
+
+        /* Image Size for Image 3 */
+        #img3 {
+            width: 140px;  /* Adjust width */
+            height: 120px; /* Adjust height */
+            object-fit: cover;
+        }
+
+        /* Image Size for Image 4 */
+        #img4 {
+            width: 90px;  /* Adjust width */
+            height: 90px; /* Adjust height */
+            object-fit: cover;
+        }
+
+        /* Description Styling */
+        .image-box {
+            width: 70%;
+            max-width: 800px;
+            padding: 40px;
+            background: white;
+            color: black;
+            font-size: 18px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+
+        /* Love Letter Cover */
+        #letter-cover {
+        display: none; /* Ensure it starts hidden */
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #f8d7da;
+        color: black;
+        padding: 40px;
+        width: 300px;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        font-family: 'Courier New', monospace;
+        opacity: 0; /* Start with opacity 0 */
+        pointer-events: none; /* Prevent interaction when hidden */
+        transition: opacity 0.5s ease-in-out; /* Smooth transition */
+        z-index: 1000; /* Ensures it's above other content */
+        flex-direction: column;  /* Stack elements vertically */
+        justify-content: center; /* Center text vertically */
+        align-items: center;      /* Center text horizontally */
+    }
+
+
+
+
+        #letter-cover h2 {
+            color: #ff4081;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        #letter-cover p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+        button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        background-color: #ff4081;
+        color: white;
+        border-radius: 5px;
+        }
+
+        button:hover {
+        background-color: #e63946;
+        }
+
+        #love-letter {
+            display: block;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80vh;  /* Set the height to 80% of the viewport height */
+            overflow-y: scroll;  /* Enable vertical scrolling */
+            padding: 20px;
+            position: relative;
+            top: 10%;  /* Adjust position to center vertically */
+            left: 50%;
+            transform: translate(-50%, 0);
+            background: white;
+            color: black;
+            padding: 70px;
+            width: 400px;
+            max-width: 500px;
+            border-radius: 40px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Styling for the content paragraphs */
+        #love-letter p {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        /* Custom Scrollbar Styling */
+        #love-letter::-webkit-scrollbar {
+            width: 12px;  /* Set the width of the scrollbar */
+        }
+
+        #love-letter::-webkit-scrollbar-thumb {
+            background-color: #ff4081;  /* Set the scrollbar thumb color */
+            border-radius: 10px;
+        }
+
+        #love-letter::-webkit-scrollbar-track {
+            background: #f1f1f1;  /* Set the track (background) color */
+            border-radius: 10px;
+        }
+
+        /* Ensure that scrollbar is at the right corner */
+        #love-letter::-webkit-scrollbar-track {
+            margin-right: 0;  /* Ensures the track sticks to the right */
+        }
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -55%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+
+        @keyframes popOut {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        #love-letter h2 {
+            color: #ff4081;
+        }
+
+        #quiz-start-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ff7eb3;
+            flex-direction: column;
+        }
+
+        #quiz-start-screen h2 {
+            font-size: 24px;
+            color: rgb(5, 5, 5);
+            margin-bottom: 20px;
+        }
+
+        /* Quiz button styling */
+        #startQuizButton {
+            background-color: #c51162;
+            padding: 15px 30px;
+            border-radius: 20px;
+            color: rgb(6, 6, 6);
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #startQuizButton:hover {
+            transform: scale(1.1);
+            background-color: #ff4081;
+        }
+
+         /* Quiz Question Page */
+        #quiz-question-screen {
+            background-color: #ff7eb3;
+        }
+
+        #quiz-question-screen h2 {
+            font-size: 24px;
+            color: rgb(255, 255, 255);
+            margin-bottom: 20px;
+        }
+
+        /* Buttons for thumbs up and thumbs down */
+        #thumbs-buttons {
+            display: flex;
+            justify-content: space-around; /* Ensures even spacing between thumbs-up and thumbs-down */
+            width: 50%;
+            margin-top: 20px;
+            align-items: center; /* Aligns buttons vertically */
+        }
+
+        #thumbs-buttons span {
+            font-size: 50px; /* Increases the size of the thumbs-up and thumbs-down icons */
+            padding: 20px; /* Adds padding around the icons to make the clickable area larger */
+            cursor: pointer;
+            transition: transform 0.3s ease; /* Smooth scaling effect */
+        }
+
+        #thumbs-buttons span:hover {
+            transform: scale(1.2); /* Slightly enlarges the button when hovered */
+        }
+
+        #thumbs-buttons span:active {
+            transform: scale(0.9); /* Slightly shrinks the button when clicked */
+        }
+
+
+        #thumbs-up, #thumbs-down {
+            font-size: 200px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #thumbs-up:hover, #thumbs-down:hover {
+            transform: scale(1.2);
+        }
+        #popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Transparent dark background */
+        display: none; /* Hidden by default */
+        justify-content: center;
+        align-items: center;
+        }
+
+        #popup-message {
+            background-color: rgb(9, 9, 9);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        #popup.hidden {
+            display: none; /* Hide the pop-up */
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+
+        
+
+
+    /* <!-- ❤️ Styling for Teddy Bears & Proposal Page --> */
+
+    /* Centering & Background */
+    #valentine-proposal-screen {
+        background: url('hearts-bg.gif') center/cover no-repeat; /* Add an animated heart background */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+        color: white;
+    }
+
+  /* Full-Screen Video */
+  .video-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+    video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Makes the video full-screen */
+    }
+
+/* 🌟 Proposal Buttons */
+.button-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+        }
+
+        .yes-button, .no-button {
+            font-size: 24px;
+            padding: 15px 40px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .yes-button {
+            background: #ff4081;
+            color: white;
+        }
+
+        .yes-button:hover {
+            background: #e6005c;
+            transform: scale(1.2);
+        }
+
+        .no-button {
+            background: #ccc;
+        }
+        
+        /* 🔥 Vibrating Screen Effect */
+        @keyframes screenShake {
+            0% { transform: translate(5px, 5px); }
+            10% { transform: translate(-5px, -5px); }
+            20% { transform: translate(5px, -5px); }
+            30% { transform: translate(-5px, 5px); }
+            40% { transform: translate(5px, 5px); }
+            50% { transform: translate(-5px, -5px); }
+            60% { transform: translate(5px, -5px); }
+            70% { transform: translate(-5px, 5px); }
+            80% { transform: translate(5px, 5px); }
+            90% { transform: translate(-5px, -5px); }
+            100% { transform: translate(0, 0); } /* Return to normal */
+        }
+
+        .shake {
+            animation: screenShake 0.5s ease-in-out;
+        }
+
+        /* 🎇 Bombers (Now Styled Circles) */
+        .bomber {
+            position: absolute;
+            bottom: 5%;
+            width: 50px;
+            height: 50px;
+            font-size: 40px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 50%;
+            background: black;
+            color: white;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        /* Position the Left & Right Bombers */
+        #bomber-left {
+            left: 10%;
+        }
+
+        #bomber-right {
+            right: 10%;
+        }
+
+        /* 💥 Explosion Effect (Big Flash & Shake) */
+        @keyframes explodeEffect {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; filter: brightness(1); }
+            30% { transform: scale(1.5) rotate(30deg); filter: brightness(2); }
+            50% { transform: scale(2.5) rotate(-30deg); filter: brightness(3); }
+            100% { transform: scale(3.5) rotate(360deg); opacity: 0; }
+        }
+
+        .explode {
+            animation: explodeEffect 0.6s ease-out forwards;
+        }
+
+        /* 🎆 Fireworks Styling */
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, yellow, red);
+            border-radius: 50%;
+            animation: fireworkBurst 1s ease-out infinite;
+        }
+
+        @keyframes fireworkBurst {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(3); opacity: 0.8; }
+            100% { transform: scale(6); opacity: 0; }
+        }
+
+        /* 🎊 Confetti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: confettiFall linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* 🌟 Shockwave Effect */
+        #shockwave {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 10%, rgba(255,0,0,0) 80%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+        }
+
+        @keyframes shockwave {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            50% { transform: translate(-50%, -50%) scale(3); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(6); opacity: 0; }
+        }
+
+        /* 🎉 Thank You Page Styling */
+        #final-thank-you-page {
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            color: white;
+        }
+
+        /* 🌟 Glowing Button Effect */
+        #final-thank-you-page button {
+            background-color: #ff4081;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 15px #ff4081;
+            animation: glow 2s infinite alternate;
+        }
+
+        #final-thank-you-page button:hover {
+            background-color: #c51162;
+            transform: scale(1.1);
+        }
+
+        /* 🌟 Soothing Thank You Message */
+.thank-you-title {
+    font-size: 70px;
+    color: #ffdde1;
+    font-family: 'Dancing Script', cursive;
+    text-shadow: 2px 2px 10px rgba(255, 183, 197, 0.8);
+    animation: fadeIn 2s ease-in-out;
+}
+
+.thank-you-text {
+    font-size: 40px;
+    color: #fff5f7;
+    font-family: 'Dancing Script', cursive;
+    text-shadow: 1px 1px 8px rgba(255, 215, 223, 0.8);
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards;
+    animation-delay: 1s;
+}
+
+/* ✨ Soft Glowing Background */
+#thank-you-screen {
+    background: linear-gradient(to right, #ff758c, #ff7eb3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    text-align: center;
+}
+
+/* 💖 Soft Fade-In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
+
+        
+    </style>
+</head>
+<body>
+
+    <div class="hearts-container"></div>
+    <script>
+        function createHearts() {
+            const heartContainer = document.querySelector(".hearts-container");
+            for (let i = 0; i < 15; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                heartContainer.appendChild(heart);
+
+                let size = Math.random() * 30 + 10; 
+                let posX = Math.random() * window.innerWidth;
+                let duration = Math.random() * 5 + 3;
+
+                heart.style.left = posX + "px";
+                heart.style.fontSize = size + "px";
+                heart.style.animationDuration = duration + "s";
+
+                setTimeout(() => heart.remove(), duration * 1000);
+            }
+        }
+        setInterval(createHearts, 1000);
+    </script>
+
+<audio id="bg-music" autoplay>
+    Your browser does not support the audio element.
+</audio>
+
+<audio id="bg-music" autoplay>
+    Your browser does not support the audio element.
+</audio>
+
+<script>
+    const songs = [
+    "public/Ve-Haniya-Ve-Dil-Janiya.mp3",
+    "public/Rabb-Manneya-Koi-Jaane-Na.mp3",
+    "public/KHEL-KHEL-MEIN-DUR-NA-KARIN-vishal.mp3",
+    "public/Ishq-Hai-Ishq-Hai.mp3"
+];
+    
+    let currentSongIndex = 0;
+    const audioElement = document.getElementById("bg-music");
+    
+    function playNextSong() {
+        currentSongIndex = (currentSongIndex + 1) % songs.length;
+        audioElement.src = songs[currentSongIndex];
+        audioElement.load();
+        audioElement.play();
+    }
+    
+    audioElement.src = songs[currentSongIndex];
+    audioElement.load();
+    audioElement.play();
+    
+    audioElement.addEventListener("ended", playNextSong);
+</script>
+
+    <div class="container" id="welcome-screen" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; width: 100vw; text-align: center;">
+        <h1 style="font-size: 60px; margin-bottom: 20px;">Welcome, My Special One! 💖</h1>
+        <p style="font-size: 23px; max-width: 80%; margin-bottom: 30px;">Every heartbeat of mine whispers your name. Are you ready for a magical surprise? ✨</p>
+        <div style="display: flex; gap: 20px;">
+            <button style="font-size: 24px; padding: 20px 40px;" onclick="showPage('question-screen')">Yes, Show Me!</button>
+            <button style="font-size: 24px; padding: 20px 40px;" onclick="denySurprise()">No</button>
+        </div>
+    </div>
+
+    <div class="container hidden" id="question-screen">
+        <div id="question-box"> 
+            <h2>✨ "If I had written my feelings for you further , would you take the time to read them?" 🌌💖</h2>
+            <button onclick="showConfession()">Yes</button>
+            <button id="noButton" onmouseover="moveButton()" onclick="denyConfession()">No</button>
+        </div>
+           
+    </div>
+
+    <div class="container hidden" id="confession-screen">
+        <h2>My Love for You ❤️</h2>
+
+        <!-- Image and Description -->
+        <div class="image-description-container">
+            <img src="./public/WhatsApp-Image-2025-02-03-at-22.13.52_9ef2aa65.jpg" class="popup-image" id="img1">
+            <div class="image-box" id="desc1">"In a sea of people, my eyes will always search for you.👀💖"</div>
+        </div>
+
+        <div class="image-description-container">
+            <img src="./public/WhatsApp-Image-2025-02-03-at-22.12.59_c92e1f34.jpg" class="popup-image" id="img2">
+            <div class="image-box" id="desc2">"The best thing to hold onto in life is each other.💞🌟"</div>
+        </div>
+
+        <div class="image-description-container">
+            <img src="./public/WhatsApp-Image-2025-02-03-at-22.13.49_fb28668a.jpg" class="popup-image" id="img3">
+            <div class="image-box" id="desc3">"Love is not about how many days we’ve been together, but how much we cherish each moment ❤️⏳"</div>
+        </div>
+
+        <div class="image-description-container">
+            <img src="./public/WhatsApp-Image-2025-02-03-at-23.58.16_6c82b1bf.jpg" id="img4">
+            <div class="image-box" id="desc4">"It’s not about the time we spend together, but the moments that take our breath away ❤️⏳"</div>
+        </div>
+        
+        <button id="continueButton" onclick="showLetterCover()">continue</button>
+    </div>
+
+    <div id="letter-cover">
+    <h2>A Special Letter for You 💌</h2>
+    <p>Click the button below to open it!</p>
+    <button onclick="openLetter()">Open Letter</button>
+</div>
+    
+
+    <div id="love-letter">
+        <h2>My Dearest Smoothie 🥰💕</h2>
+        
+        <p>From the moment you stepped into my life, everything became brighter, warmer, and more beautiful. ✨🌸 You are not just my love; you are my best friend 🤗, my safe haven 🏡💖, the one who makes even the quietest moments feel like the sweetest melodies. 🎶💞</p>
+        <p>I adore the way your eyes light up ✨👀 when you talk about the things you love, the way your laughter fills the air like the most joyful song 🎶😂, and the way you make even the simplest moments feel like magic. 🌷💫 You are my greatest happiness 🥰, my endless inspiration 🚀, and the reason my heart beats just a little faster every time I think of you. ❤️💓</p>
+        <p>No matter where life takes us 🌍🚀, through every sunrise and every storm, one thing will never change—I will always choose you. 🫂💖 I will always cherish you, love you, and hold your heart close to mine. 💞🔐 You are my greatest blessing 🌟, my favorite person 💑💘</p>
+        <p>Thank you for being you. 💕 Thank you for filling my days with love, laughter, and warmth. Thank you for making my world so much more beautiful just by being in it. 😘💖</p>
+        <p>I still remember the day we first met 👀, the way my heart felt lighter when you were around. The first ride we took together 🏍️💨, the first time we became something more than just two souls crossing paths 💑, and the day we finally met offline 📸💖—each moment is a treasure etched deep in my heart. 🕰️💘 Those days were nothing short of magic ✨, and I carry them with me always 💖🌿. i will never let u go anywhere..💖💘</p>
+        <p>I and U may be miles apart, but our bond knows no distance. 💞✨ This Valentine’s, while we can’t be together physically, our hearts remain deeply connected. ❤️🌍 Every day, we find ways to make each other feel loved despite the distance—through late-night calls 📞, heartfelt messages 💌, and many more little things that keep us close. 💖 Love is not just about being in the same place; it’s about understanding 🤗, patience ⏳, and unwavering commitment. 💕 No matter how many miles separate us, our bond only grows stronger. 🌟 Distance is just a test, and we are passing it with our love. 💑💫    </p>
+        <p></p>
+        <p></p>
+        <p>And always remember darling : </p>
+        <p><strong>"We will always stand together, grow together, and cherish every moment side by side.💖❤️✨"</strong></p>
+        
+        <p>And now, my love… 😘</p>
+        <h2>💌 WILL YOU BE MY VALENTINE, Smoothie??? 💝💐💘</h2>
+        <p>Forever yours,<br><strong>Your Kumbhkaran 😴❤️✨</strong></p>
+
+           
+        <button onclick="closeLetter()">Continue</button>
+    
+    </div>
+
+    
+    <!-- <div id="personal-thank-you-screen" class="container hidden">
+        <h1>Thank You, My Special One! 💖</h1>
+        <p>You are the light of my life. Every moment with you is a blessing. I am forever grateful for you, and I can't wait for more memories to share! 💕</p>
+        <button onclick="showPage('welcome-screen')">Back to Start</button>
+    </div> -->
+
+    <!-- Quiz Start Screen -->
+  <div id="quiz-start-screen" class="container active">
+    <h2 style="font-size: 50px; margin-bottom: 20px;">Are you ready for a little fun? ✨💫 Let’s dive into a sweet quiz together! 🎉💕</h2>
+    <p style="font-size: 30px; margin-bottom: 10px; color: #010101;">NOTE : the questions are to be presented you have to give answer to the person sitting in front of you</p>
+    <p style="font-size: 30px; margin-bottom: 10px; color: #010101;">so,lets begin with it !! 💖😊</p>
+    <button onclick="startQuiz()">Start the Quiz!</button>
+  </div>
+
+  <!-- Quiz Question 1 -->
+  <div id="quiz-question-1" class="container hidden">
+    <h2 style="font-size: 30px; max-width: 80%; margin-bottom: 30px;">Question 1: a) : What’s something about us that still feels like a beautiful surprise to you? 🌿💫💕</h2>
+    <p style="font-size: 30px; max-width: 80%; margin-bottom: 30px;">b) : What’s a small moment of us that still makes you smile? 😊🌸</p>
+    <div id="thumbs-buttons">
+      <span onclick="answerQuestion(1, 'thumbs-up')">👍</span>
+      <span onclick="answerQuestion(1, 'thumbs-down')">👎</span>
+    </div>
+  </div>
+
+  <!-- Quiz Question 2 -->
+  <div id="quiz-question-2" class="container hidden">
+    <h2 style="font-size: 30px; max-width: 80%; margin-bottom: 30px;">Question 2: If you could relive one of our best days, which one would it be? ⏳💛</h2>
+    <p style="font-size: 30px; max-width: 80%; margin-bottom: 30px;">b) : What’s a little thing I did that made you feel really special? ✨🤍</p>
+    <div id="thumbs-buttons">
+      <span onclick="answerQuestion(2, 'thumbs-up')">👍</span>
+      <span onclick="answerQuestion(2, 'thumbs-down')">👎</span>
+    </div>
+  </div>
+
+  <!-- Quiz Question 3 -->
+  <div id="quiz-question-3" class="container hidden">
+    <h2 style="font-size: 30px; max-width: 80%; margin-bottom: 30px;">Question 3: a) :  If you had to describe our journey in three words, what would they be? 🚀💫💕</h2>
+    <p style="font-size: 30px; max-width: 80%; margin-bottom: 30px;">b) : What’s a place we’ve been together that feels extra special to you? 🌍❤️</p>
+    <div id="thumbs-buttons">
+      <span onclick="answerQuestion(3, 'thumbs-up')">👍</span>
+      <span onclick="answerQuestion(3, 'thumbs-down')">👎</span>
+    </div>
+  </div>
+
+  <!-- Quiz Question 4 -->
+  <div id="quiz-question-4" class="container hidden">
+    <h2 style="font-size: 30px; max-width: 80%; margin-bottom: 30px;">Question 4: a) :  what do i do that always makes your day better ❤️ 💕</h2>
+    <p style="font-size: 30px; max-width: 80%; margin-bottom: 30px;">b) : If you had to describe our bond in three words, what would they be? 💕🌿</p>
+    <div id="thumbs-buttons">
+      <span onclick="answerQuestion(4, 'thumbs-up')">👍</span>
+      <span onclick="answerQuestion(4, 'thumbs-down')">👎</span>
+    </div>
+  </div>
+
+  <!-- Quiz Question 5 -->
+  <div id="quiz-question-5" class="container hidden">
+    <h2 style="font-size: 30px; max-width: 80%; margin-bottom: 30px;">Question 5: a) :  If we could relive one of our late-night talks, which one would it be? 🌙💬</h2>
+    <p style="font-size: 30px; max-width: 80%; margin-bottom: 30px;">b) : What’s something about us that feels truly one of a kind? 💫🤍</p>
+    <div id="thumbs-buttons">
+      <span onclick="answerQuestion(5, 'thumbs-up')">👍</span>
+      <span onclick="answerQuestion(5, 'thumbs-down')">👎</span>
+    </div>
+  </div>
+
+  <!-- Pop-Up -->
+  <div id="popup" class="hidden">
+    <div id="popup-message">
+        <h2>hey smoothie ❤️</h2>
+      <p id="popup-text"></p>
+      <button onclick="closePopUp()">Close</button>
+    </div>
+  </div>
+
+  <!-- Quiz Results -->
+  <div id="quiz-results-screen" class="container hidden">
+    <h2 style="font-size: 60px; max-width: 80%; margin-bottom: 30px;">Thank you for completing the quiz! 🎉</h2>
+    <p style="font-size: 45px; max-width: 80%; margin-bottom: 30px;">Your responses have been recorded. See you soon! 😊</p>
+  </div>
+
+  <div id="thank-you-screen" class="container hidden">
+    <h2 class="thank-you-title">💖 A Heartfelt Thank You! 🌸</h2>
+    <p class="thank-you-text">Every answers of the question with you is able to recall and store the memories my heart. 🎶💫</p>
+    <p class="thank-you-text">Your presence makes this quiz more beautiful, and I'm endlessly grateful for you. ✨💕</p>
+    <button onclick="goToNextPage()">Next</button> <!-- ✅ Next button added -->
+</div>
+
+<!-- Next Page (Add Your Content Here) -->
+<div id="next-page-screen" class="container hidden fade-in">
+    <h2 style="font-size: 60px; max-width: 80%; margin-bottom: 30px;">Welcome to the last Part of this site! 🎉</h2>
+    <p style="font-size: 40px; max-width: 80%; margin-bottom: 30px;">"Something special is waiting for you, Smoothie... ahead! 🤗💕  
+        And I will wait for the reply with fingers crossed 🤞😊"</p>
+    <button onclick="showPage('final-surprise-screen')">Next</button> <!-- ✅ Goes to final page -->
+</div>
+<style>
+    .fade-in {
+        animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>
+
+
+<!-- 🎁 Final Surprise Screen -->
+<div id="final-surprise-screen" class="container">
+    <h2 style="font-size: 60px;">🎁 Your Surprise is Ready! 💝</h2>
+    <p style="font-size: 40px;">"Smoothie, this journey was special, and now... it's time for your **BIG SURPRISE**! 💖"</p>
+    <button onclick="startBuffering()">Next</button> <!-- ✅ Goes to buffering -->
+</div>
+
+<!-- ⏳ Buffering Screen -->
+<div id="buffering-screen" class="container hidden">
+    <h2 style="font-size: 50px;">✨ Just a Moment... Something Special is Coming! 🎁</h2>
+    <div class="loader"></div> <!-- ✅ Buffering Animation -->
+</div>
+
+<!-- Ultimate Special Page (After Buffering) -->
+<div id="ultimate-special-screen" class="container hidden">
+    <h2 style="font-size: 60px;">🎊 The Grand Finale! 💖</h2>
+    <p style="font-size: 40px;">"This is the **final surprise** for you, Smoothie! I hope it made you smile! 😊💞"</p>
+    <button class="next-button" onclick="showPage('valentine-proposal-screen')">Continue 💖</button>
+</div>
+
+<div id="final-thank-you-page" class="container hidden">
+    <h1 style="font-size: 70px; color: #ffeb3b; text-shadow: 3px 3px 10px rgba(255, 235, 59, 0.8);">
+        💖 Thank You for Visiting! 💖
+    </h1>
+    <p style="font-size: 30px; max-width: 80%; margin-bottom: 20px; color: white;">
+        Your presence made this journey even more special! I hope this brought a smile to your face. 😊✨
+    </p>
+    <p style="font-size: 25px; color: white;">Wishing you love, happiness, and endless joy! 💕🌟</p>
+    <button onclick="restartSite()">Back to Start 🚀</button>
+</div>
+
+
+
+<!-- ✅ Buffering Animation Styling -->
+<style>
+    .loader {
+        border: 10px solid #f3f3f3;
+        border-top: 10px solid #ff4081; /* Pink color */
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        animation: spin 2s linear infinite;
+        margin-top: 20px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+</style>
+
+<!-- ❤️ Valentine Proposal Page -->
+<div id="valentine-proposal-screen" class="container hidden">
+    
+
+    <!-- Video Section (Full-Screen) -->
+    <div class="video-container">
+        <video id="proposal-video" autoplay loop muted playsinline>
+            <source src="./public/vlti-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+
+        <!-- 🎇 Bombers Inside Video -->
+    <div id="bomber-left" class="bomber">💣</div>
+    <div id="bomber-right" class="bomber">💣</div>
+
+    <!-- 💥 Shockwave Effect -->
+    <div id="shockwave"></div>
+
+    <!-- 🎉 Confetti & Fireworks -->
+    <div id="confetti-container"></div>
+    <div id="fireworks-container"></div>
+    <!-- Button Section -->
+    <div class="button-container">
+        <button class="yes-button" onclick="triggerCelebration()">Yes ❤️</button>
+        <button class="no-button" onclick="alert('Oh no! 😢 But I still love you!')">No 🙈</button>
+    </div>
+
+
+</div>
+<script>
+        function startCelebration() {
+        createConfetti();
+        createFireworks();
+    }
+
+    function triggerCelebration() {
+    // Add shake effect to the body
+    document.body.classList.add("shake");
+
+    // Vibrate device for 500ms (if supported)
+    if ("vibrate" in navigator) {
+        navigator.vibrate([500]); // Vibrates for 500ms
+    }
+
+    // After 0.5 seconds, remove shake and trigger explosion
+    setTimeout(() => {
+        document.body.classList.remove("shake");
+        explodeBombers();
+    }, 300);
+}
+
+function explodeBombers() {
+    let bomberLeft = document.getElementById("bomber-left");
+    let bomberRight = document.getElementById("bomber-right");
+    let shockwave = document.getElementById("shockwave");
+
+    // Apply explosion animation
+    bomberLeft.classList.add("explode");
+    bomberRight.classList.add("explode");
+    shockwave.style.animation = "shockwave 4s ease-out";
+
+    // Vibrate again for explosion effect
+    if ("vibrate" in navigator) {
+        navigator.vibrate([300, 100, 300]); // Vibrates for 300ms, pause 100ms, then 300ms again
+    }
+
+    // Hide bombers after explosion
+    setTimeout(() => {
+        bomberLeft.style.display = "none";
+        bomberRight.style.display = "none";
+    }, 600);
+
+    // Create Fireworks
+    createFireworks();
+
+    // Create Confetti
+    createConfetti();
+
+     // ✅ Ensure the final page appears after 7 seconds
+    setTimeout(() => {
+        console.log("Switching to final thank-you page...");
+        showPage("final-thank-you-page"); // Corrected page ID
+    }, 7000);
+}
+
+
+    /* 🎆 Create Fireworks */
+    function createFireworks() {
+        let fireworksContainer = document.getElementById("fireworks-container");
+
+        for (let i = 0; i < 30; i++) { // More fireworks for bigger blast
+            let firework = document.createElement("div");
+            firework.classList.add("firework");
+
+            firework.style.left = Math.random() * 100 + "vw";
+            firework.style.top = Math.random() * 80 + "vh";
+            firework.style.animationDuration = Math.random() * 5.5 + 5 + "s";
+
+            fireworksContainer.appendChild(firework);
+
+            setTimeout(() => firework.remove(), 2000);
+        }
+    }
+
+    /* 🎊 Create Smooth Falling Confetti (5000 Confetti Optimized) */
+    function createConfetti() {
+        let confettiContainer = document.getElementById("confetti-container");
+
+        let totalConfetti = 5000;
+        let confettiPerBatch = 200; // Generate 200 at a time
+        let batchCount = Math.ceil(totalConfetti / confettiPerBatch);
+        let batchIndex = 0;
+
+        function generateBatch() {
+            if (batchIndex >= batchCount) return;
+
+            for (let i = 0; i < confettiPerBatch; i++) {
+                let confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+
+                confetti.style.left = Math.random() * 100 + "vw"; // Random X position
+                confetti.style.top = "-10px"; // Start above screen
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.width = Math.random() * 6 + "px"; // Random size
+                confetti.style.height = confetti.style.width;
+                confetti.style.animationDuration = Math.random() * 4 + 3 + "s"; // Random fall speed
+                confetti.style.animationDelay = Math.random() * 2 + "s"; // Random delay
+
+                confettiContainer.appendChild(confetti);
+
+                // Remove confetti after it reaches the bottom
+                setTimeout(() => confetti.remove(), 7000);
+            }
+
+            batchIndex++;
+            requestAnimationFrame(generateBatch); // Continue generating batches
+        }
+
+        generateBatch(); // Start generating confetti
+    }
+
+    /* 🎨 Random Color Generator */
+    function getRandomColor() {
+        let colors = ["#ff4081", "#ffeb3b", "#03a9f4", "#4caf50", "#ff5722", "#9c27b0"];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    
+</script>
+    
+<script>
+function createHearts() {
+            for (let i = 0; i < 30; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                document.body.appendChild(heart);
+
+                let size = Math.random() * 30 + 10; 
+                let posX = Math.random() * window.innerWidth;
+                let duration = Math.random() * 5 + 3;
+
+                heart.style.left = posX + "px";
+                heart.style.fontSize = size + "px";
+                heart.style.animationDuration = duration + "s";
+
+                setTimeout(() => heart.remove(), duration * 1000);
+            }
+        }
+        setInterval(createHearts, 5000);
+
+let currentQuestion = 1;
+const totalQuestions = 5;
+
+// Function to show a specific page
+function showPage(pageId) {
+    document.querySelectorAll('.container').forEach(page => {
+        page.classList.add('hidden'); // Hide all pages
+        page.classList.remove('active'); // Ensure 'active' class is removed
+    });
+
+    let targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.remove('hidden'); // Show desired page
+        targetPage.classList.add('active');
+    }
+
+    // Smooth scroll to top
+    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+}
+
+// Special interactive functions
+function denySurprise() {
+    alert("You can't deny the surprise, my love! 💖");
+}
+
+function denyConfession() {
+    alert("Oh no! 😢 But I really want you to see this! 💖");
+}
+
+function moveButton() {
+    const button = document.getElementById("noButton");
+    button.style.top = Math.random() * 80 + "%";
+    button.style.left = Math.random() * 80 + "%";
+}
+
+// Function to show the confession page with animations
+function showConfession() {
+    showPage("confession-screen");
+
+    setTimeout(() => { document.getElementById("img1").classList.add("show"); }, 500);
+    setTimeout(() => { document.getElementById("desc1").classList.add("show"); }, 1000);
+    setTimeout(() => { document.getElementById("img2").classList.add("show"); }, 1500);
+    setTimeout(() => { document.getElementById("desc2").classList.add("show"); }, 2000);
+    setTimeout(() => { document.getElementById("img3").classList.add("show"); }, 2500);
+    setTimeout(() => { document.getElementById("desc3").classList.add("show"); }, 3000);
+    setTimeout(() => { document.getElementById("img4").classList.add("show"); }, 3500);
+    setTimeout(() => { document.getElementById("desc4").classList.add("show"); }, 4000);
+}
+
+// Function to show letter cover
+function showLetterCover() {
+    let letterCover = document.getElementById("letter-cover");
+
+    // Ensure previous elements are hidden
+    document.getElementById("confession-screen").style.display = "none";  
+    document.getElementById("love-letter").style.display = "none";  
+
+    // Show the letter cover with smooth fade-in
+    letterCover.style.display = "flex";  
+    setTimeout(() => {
+        letterCover.style.opacity = "1";
+        letterCover.style.pointerEvents = "auto"; // Allow interaction
+    }, 50);
+}
+
+function hideLetterCover() {
+    let letterCover = document.getElementById("letter-cover");
+
+    // Smooth fade-out effect
+    letterCover.style.opacity = "0";  
+    letterCover.style.pointerEvents = "none"; // Disable interaction
+
+    setTimeout(() => { 
+        letterCover.style.display = "none"; // Hide after animation
+    }, 500);
+}
+
+
+
+// Function to open letter
+function openLetter() {
+    document.getElementById("letter-cover").style.display = "none";  
+    let loveLetter = document.getElementById("love-letter");
+    loveLetter.style.display = "block";  
+    loveLetter.style.opacity = "1";  
+
+    setTimeout(() => window.scrollTo({ top: loveLetter.offsetTop, behavior: 'smooth' }), 100);
+}
+
+// Function to close letter
+function closeLetter() {
+    document.getElementById("love-letter").style.display = "none";
+    document.getElementById("letter-cover").style.display = "none";
+    showPage("quiz-start-screen");
+}
+
+// Start the quiz: hide start screen and show question 1
+function startQuiz() {
+      currentQuestion = 1;
+      showPage("quiz-question-1");
+    }
+
+    // Handle answer input for a question
+    // If thumbs-up, move to next question; if thumbs-down, show popup
+    function answerQuestion(questionNumber, answer) {
+      console.log(`Question ${questionNumber}: ${answer}`);
+      if (answer === 'thumbs-up') {
+        nextQuestion();
+      } else {
+        showPopUp(questionNumber);
+      }
+    }
+
+    // Move to the next question or show results if finished
+    function nextQuestion() {
+      // Hide current question
+      let currentDiv = document.getElementById(`quiz-question-${currentQuestion}`);
+      if (currentDiv) {
+        currentDiv.classList.add("hidden");
+      }
+      
+      if (currentQuestion < totalQuestions) {
+      currentQuestion++;
+      showPage(`quiz-question-${currentQuestion}`);
+    } else {
+      showPage("thank-you-screen"); // ✅ Show Thank You Page instead of results
+    }
+  }
+
+    function showPopUp(questionNumber) {
+    document.getElementById("popup-text").innerText = "someone is waiting for your sweet replies !!! , plz reconsider darling  ";
+    let popup = document.getElementById("popup");
+    popup.style.display = "flex";
+    popup.classList.remove("hidden");
+  }
+
+    // Close popup without advancing the question
+    function closePopUp() {
+      let popup = document.getElementById("popup");
+      popup.style.display = "none";
+      popup.classList.add("hidden");
+    }
+
+    function goToNextPage() {
+    showPage("next-page-screen"); // ✅ Move to the Next Page
+  }
+
+  
+    function startBuffering() {
+        showPage("buffering-screen"); // Show buffering screen
+
+        setTimeout(() => {
+            showPage("valentine-proposal-screen"); // Show final proposal page after delay
+        }, 7000); // Adjust delay (5000ms = 5 seconds)
+    }
+
+function moveNoButton() {
+    let noButton = document.getElementById("no-button");
+    let randomX = Math.random() * 200 - 100; // Move randomly within range
+    let randomY = Math.random() * 100 - 50;
+    noButton.style.transform = `translate(${randomX}px, ${randomY}px)`;
+}
+</script>
+</body>
+</html>
